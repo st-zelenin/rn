@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import baseStyles, { primaryColors, secondaryColors } from '../../styles';
+import baseStyles, { primaryColors, secondaryColors } from '../../shared/styles';
 
 export default StyleSheet.create({
   ...baseStyles,

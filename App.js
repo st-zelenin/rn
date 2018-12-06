@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Font } from 'expo';
 
-import Login from './features/login';
-import ProductList from './features/product-list';
-import ProductDetails from './features/product-details';
+import Login from './src/features/login';
+import ProductList from './src/features/product-list';
+import ProductDetails from './src/features/product-details';
 
 export default class App extends Component {
   state = {
