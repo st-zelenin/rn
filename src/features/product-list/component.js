@@ -9,12 +9,15 @@ import IconSet, { ICON_TYPE } from '../../shared/icons';
 // eslint-disable-next-line react/prefer-stateless-function
 export default class ProductList extends Component {
   static propTypes = {
-    onProductDetailsOpen: PropTypes.func.isRequired,
+    navigation: PropTypes.object.isRequired,
+  }
+
+  handleProductDetailsOpen = (product) => {
+    const { navigation } = this.props;
+    navigation.navigate('ProductDetails', { product });
   }
 
   render() {
-    const { onProductDetailsOpen } = this.props;
-
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Products</Text>
@@ -25,7 +28,7 @@ export default class ProductList extends Component {
                 <IconSet name={product.icon} style={styles.productIcon} />
                 <Text style={styles.productName}>{product.name}</Text>
                 <TouchableHighlight
-                  onPress={() => onProductDetailsOpen(product)}
+                  onPress={() => this.handleProductDetailsOpen(product)}
                   style={styles.goToDetailsButton}
                 >
                   <IconSet name={ICON_TYPE.ARROW_RIGHT} style={styles.goToDetailsButtonIcon} />

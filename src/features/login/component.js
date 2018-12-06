@@ -7,7 +7,7 @@ import styles from './styles';
 
 export default class Login extends Component {
   static propTypes = {
-    onLogin: PropTypes.func.isRequired,
+    navigation: PropTypes.object.isRequired,
   }
 
   state = {
@@ -22,8 +22,8 @@ export default class Login extends Component {
       return;
     }
 
-    const { onLogin } = this.props;
-    onLogin();
+    const { navigation } = this.props;
+    navigation.navigate('ProductList');
   };
 
   handleEmailChange = email => this.setState({ email });

@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { Font } from 'expo';
 
-import Login from './src/features/login';
-import ProductList from './src/features/product-list';
-import ProductDetails from './src/features/product-details';
+import NavigationContainer from './src/core/navigation';
 
 export default class App extends Component {
   state = {
-    isLoggedIn: false,
-    product: undefined,
-  };
+    fontsLoaded: false,
+  }
 
   async componentDidMount() {
     await Font.loadAsync({
@@ -24,27 +21,13 @@ export default class App extends Component {
     this.setState({ fontsLoaded: true });
   }
 
-  handleLogin = () => this.setState({ isLoggedIn: true });
-
-  handleProductDetailsOpen = product => this.setState({ product });
-
-  handleAllProductsClick = () => this.setState({ product: undefined });
-
   render() {
-    const { isLoggedIn, fontsLoaded, product } = this.state;
+    const { fontsLoaded } = this.state;
 
     if (!fontsLoaded) {
       return null;
     }
 
-    if (!isLoggedIn) {
-      return <Login onLogin={this.handleLogin} />;
-    }
-
-    if (product) {
-      return <ProductDetails onAllProductsClick={this.handleAllProductsClick} product={product} />;
-    }
-
-    return <ProductList onProductDetailsOpen={this.handleProductDetailsOpen} />;
+    return <NavigationContainer />;
   }
 }
