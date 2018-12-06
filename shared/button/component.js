@@ -1,16 +1,14 @@
 import React from 'react';
-import { Text, View, TouchableHighlight } from 'react-native';
+import { Text, TouchableHighlight } from 'react-native';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
 
 const Button = ({ text, onPress }) => (
-  <TouchableHighlight onPress={onPress}>
-    <View style={styles.button}>
-      <Text style={styles.buttonText}>
-        {text}
-      </Text>
-    </View>
+  <TouchableHighlight style={styles.button} onPress={onPress}>
+    <Text style={styles.buttonText}>
+      {text}
+    </Text>
   </TouchableHighlight>
 );
 

@@ -46,7 +46,6 @@ export default StyleSheet.create({
     borderWidth: 0.5,
     borderColor: secondaryColors.darkBlue,
     margin: 5,
-    textAlign: 'center',
     alignItems: 'center',
   },
   goToDetailsButtonIcon: {

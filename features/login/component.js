@@ -26,6 +26,10 @@ export default class Login extends Component {
     onLogin();
   };
 
+  handleEmailChange = email => this.setState({ email });
+
+  handlePasswordChange = password => this.setState({ password });
+
   render() {
     return (
       <View style={styles.container}>
@@ -38,13 +42,13 @@ export default class Login extends Component {
         <View style={styles.loginForm}>
           <TextInput
             style={styles.textInput}
-            onChangeText={email => this.setState({ email })}
+            onChangeText={this.handleEmailChange}
             placeholder="email..."
             textContentType="emailAddress"
           />
           <TextInput
             style={styles.textInput}
-            onChangeText={password => this.setState({ password })}
+            onChangeText={this.handlePasswordChange}
             placeholder="password..."
             textContentType="password"
             secureTextEntry={true}

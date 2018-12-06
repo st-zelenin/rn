@@ -9,7 +9,6 @@ export default StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 2,
     marginTop: 20,
-    alignSelf: 'flex-start',
   },
   buttonText: {
     color: primaryColors.white,

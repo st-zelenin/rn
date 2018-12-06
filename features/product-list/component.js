@@ -24,10 +24,11 @@ export default class ProductList extends Component {
               <View key={product.id} style={styles.productsTableRow}>
                 <IconSet name={product.icon} style={styles.productIcon} />
                 <Text style={styles.productName}>{product.name}</Text>
-                <TouchableHighlight onPress={() => onProductDetailsOpen(product)}>
-                  <View style={styles.goToDetailsButton}>
-                    <IconSet name={ICON_TYPE.ARROW_RIGHT} style={styles.goToDetailsButtonIcon} />
-                  </View>
+                <TouchableHighlight
+                  onPress={() => onProductDetailsOpen(product)}
+                  style={styles.goToDetailsButton}
+                >
+                  <IconSet name={ICON_TYPE.ARROW_RIGHT} style={styles.goToDetailsButtonIcon} />
                 </TouchableHighlight>
               </View>
             ))
