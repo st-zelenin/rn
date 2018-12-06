@@ -1,0 +1,11 @@
+export const ICON_TYPE = {
+  MAP: 'MAP',
+  SMILE: 'SMILE',
+  STAR: 'STAR',
+  CAMERA: 'CAMERA',
+  GIFT: 'GIFT',
+  PLUS: 'PLUS',
+  CART: 'CART',
+  FOOTBALL_BALL: 'FOOTBALL_BALL',
+  ARROW_RIGHT: 'ARROW_RIGHT-right',
+};
