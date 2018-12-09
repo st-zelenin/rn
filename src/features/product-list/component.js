@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { products } from './constants';
 import styles from './styles';
 import IconSet, { ICON_TYPE } from '../../shared/icons';
+import { ROUTES } from '../../core/navigation';
 
 export default class ProductList extends Component {
   static propTypes = {
@@ -45,7 +46,7 @@ export default class ProductList extends Component {
 
   handleProductDetailsOpen = (product) => {
     const { navigation } = this.props;
-    navigation.navigate('ProductDetails', { product });
+    navigation.navigate(ROUTES.PRODUCT_DETAILS, { product });
   }
 
   render() {

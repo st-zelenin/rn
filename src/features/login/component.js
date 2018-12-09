@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Button from '../../shared/button';
 import styles from './styles';
 import { signIn } from './utils';
+import { ROUTES } from '../../core/navigation';
 
 export default class Login extends Component {
   static propTypes = {
@@ -16,8 +17,8 @@ export default class Login extends Component {
   };
 
   state = {
-    email: 'Stepan_Zelenin@epam.com',
-    password: 'Stepan123',
+    email: '',
+    password: '',
     error: '',
   };
 
@@ -34,7 +35,7 @@ export default class Login extends Component {
       const token = await signIn(email, password);
 
       const { navigation } = this.props;
-      navigation.navigate('ProductList');
+      navigation.navigate(ROUTES.PRODUCT_LIST);
     } catch ({ message }) {
       this.setState({ error: message });
     }
