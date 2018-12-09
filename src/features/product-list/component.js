@@ -1,16 +1,47 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableHighlight } from 'react-native';
+import {
+  Text, View, TouchableHighlight, BackHandler,
+} from 'react-native';
 import PropTypes from 'prop-types';
 
 import { products } from './constants';
 import styles from './styles';
 import IconSet, { ICON_TYPE } from '../../shared/icons';
 
-// eslint-disable-next-line react/prefer-stateless-function
 export default class ProductList extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
   }
+
+  static navigationOptions = {
+    title: 'Products',
+    headerLeft: null,
+  };
+
+  constructor(props) {
+    super(props);
+
+    const { navigation } = this.props;
+    this.didFocusSubscription = navigation.addListener(
+      'didFocus',
+      () => BackHandler.addEventListener('hardwareBackPress', this.handleBackPress),
+    );
+  }
+
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.willBlurSubscription = navigation.addListener(
+      'willBlur',
+      () => BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress),
+    );
+  }
+
+  componentWillUnmount() {
+    if (this.didFocusSubscription) this.didFocusSubscription.remove();
+    if (this.willBlurSubscription) this.willBlurSubscription.remove();
+  }
+
+  handleBackPress = () => true;
 
   handleProductDetailsOpen = (product) => {
     const { navigation } = this.props;

@@ -10,7 +10,10 @@ import Button from '../../shared/button';
 export default class ProductDetails extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-  }
+  };
+
+  static navigationOptions =
+    ({ navigation }) => ({ title: `${navigation.state.params.product.name} Details` });
 
   handleGoBackClick = () => {
     const { navigation } = this.props;
