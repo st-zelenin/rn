@@ -6,6 +6,8 @@ import Button from '../../shared/button';
 import styles from './styles';
 import { signIn } from './utils';
 import { ROUTES } from '../../core/navigation';
+import RetryModal from '../../shared/retry-modal';
+import { UnauthorizedError } from '../../core/errors';
 
 export default class Login extends Component {
   static propTypes = {
@@ -20,6 +22,7 @@ export default class Login extends Component {
     email: '',
     password: '',
     error: '',
+    isModalVisible: false,
   };
 
   handleLoginClick = async () => {
@@ -36,8 +39,12 @@ export default class Login extends Component {
 
       const { navigation } = this.props;
       navigation.navigate(ROUTES.PRODUCT_LIST);
-    } catch ({ message }) {
-      this.setState({ error: message });
+    } catch (error) {
+      if (error instanceof UnauthorizedError) {
+        this.setState({ error: error.message });
+      } else {
+        this.setState({ isModalVisible: true });
+      }
     }
   };
 
@@ -45,8 +52,19 @@ export default class Login extends Component {
 
   handlePasswordChange = password => this.setState({ password });
 
+  handleModalClose = () => {
+    this.setState({ isModalVisible: false });
+  }
+
+  handleRetry = () => {
+    this.setState(
+      { isModalVisible: false },
+      this.handleLoginClick,
+    );
+  }
+
   render() {
-    const { error } = this.state;
+    const { error, isModalVisible } = this.state;
 
     return (
       <View style={styles.container}>
@@ -75,6 +93,12 @@ export default class Login extends Component {
           <Button text="login" onPress={this.handleLoginClick} />
 
         </View>
+
+        <RetryModal
+          isVisible={isModalVisible}
+          onRetryClick={this.handleRetry}
+          onCancelClick={this.handleModalClose}
+        />
 
       </View>
     );

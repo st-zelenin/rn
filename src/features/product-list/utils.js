@@ -6,10 +6,11 @@ const buildProductsUrl = (pageSize, currentPage) => `${apiUrl}products?searchCri
 
 export const loadProducts = async (chunkNumber) => {
   const url = buildProductsUrl(ITEMS_PER_CHUNK, chunkNumber);
+
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw Error('failed to sign in');
+    throw Error('failed to load products');
   }
 
   return response.json();

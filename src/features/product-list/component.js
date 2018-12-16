@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import {
-  Text, View, TouchableHighlight, BackHandler, FlatList, Modal,
+  Text, View, TouchableHighlight, BackHandler, FlatList,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
-// import { products } from './constants';
 import styles from './styles';
 import { loadProducts, extendProducts } from './utils';
 import IconSet, { ICON_TYPE } from '../../shared/icons';
 import { ROUTES } from '../../core/navigation';
-import Button from '../../shared/button';
-// import Modal from '../../shared/modal';
+import RetryModal from '../../shared/retry-modal';
 
 export default class ProductList extends Component {
   static propTypes = {
@@ -70,6 +68,8 @@ export default class ProductList extends Component {
 
         return null;
       });
+    } catch {
+      this.setState({ isModalVisible: true });
     } finally {
       this.setState({ isLoading: false });
     }
@@ -80,11 +80,17 @@ export default class ProductList extends Component {
   handleProductDetailsOpen = (product) => {
     const { navigation } = this.props;
     navigation.navigate(ROUTES.PRODUCT_DETAILS, { product });
-    // this.setState({ isModalVisible: true });
   }
 
   handleModalClose = () => {
     this.setState({ isModalVisible: false });
+  }
+
+  handleRetry = () => {
+    this.setState(
+      { isModalVisible: false, isLoading: true },
+      this.loadNextChunk,
+    );
   }
 
   keyExtractor = ({ id }) => id.toString();
@@ -139,22 +145,12 @@ export default class ProductList extends Component {
             refreshing={isLoading}
           />
         </View>
-        <Modal
-          animationType="none"
-          transparent={true}
-          visible={isModalVisible}
-          onRequestClose={() => { this.setState({ isModalVisible: false }); }}
-        >
-          <View style={styles.modal}>
-            <View style={styles.contentContainer}>
-              <Text style={styles.sss}>hello</Text>
-              <Button
-                text="Close"
-                onPress={this.handleModalClose}
-              />
-            </View>
-          </View>
-        </Modal>
+
+        <RetryModal
+          isVisible={isModalVisible}
+          onRetryClick={this.handleRetry}
+          onCancelClick={this.handleModalClose}
+        />
       </View>
     );
   }
