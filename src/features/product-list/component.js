@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 // import { products } from './constants';
 import styles from './styles';
-import { loadProducts } from './utils';
+import { loadProducts, extendProducts } from './utils';
 import IconSet, { ICON_TYPE } from '../../shared/icons';
 import { ROUTES } from '../../core/navigation';
 import Button from '../../shared/button';
@@ -64,7 +64,8 @@ export default class ProductList extends Component {
       const chunk = await loadProducts(chunkNumber);
       this.setState(({ products }) => {
         if (chunk.total_count > loadedProducts.length) {
-          return { products: products.concat(chunk.items) };
+          const extendedProducts = extendProducts(chunk.items);
+          return { products: products.concat(extendedProducts) };
         }
 
         return null;

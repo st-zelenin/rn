@@ -9,7 +9,10 @@ export default StyleSheet.create({
     width: '100%',
     padding: 15,
   },
-  productIcon: {
+  locationButton: {
+
+  },
+  locationIcon: {
     color: secondaryColors.coral,
     paddingRight: 15,
     fontSize: 24,
