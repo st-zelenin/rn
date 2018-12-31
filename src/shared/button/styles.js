@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
 
-import { primaryColors, secondaryColors } from '../styles';
+import { primaryColors } from '../styles';
 
 export default StyleSheet.create({
   button: {
-    backgroundColor: secondaryColors.brightBlue,
+    backgroundColor: primaryColors.white,
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 2,
@@ -15,5 +15,14 @@ export default StyleSheet.create({
     color: primaryColors.white,
     fontFamily: 'source-sans-pro',
     textAlign: 'center',
+  },
+  buttonAnimation: {
+    position: 'absolute',
+    flex: 1,
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: 2,
   },
 });

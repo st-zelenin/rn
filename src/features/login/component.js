@@ -1,16 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  Animated, Easing, LayoutAnimation, Text, TextInput, TouchableOpacity, View,
+  LayoutAnimation, Text, TextInput, View,
 } from 'react-native';
 
 import { UnauthorizedError } from '../../core/errors';
 import { ROUTES } from '../../core/navigation';
+import Button from '../../shared/button';
 import IconSet, { ICON_TYPE } from '../../shared/icons';
 import RetryModal from '../../shared/retry-modal';
 import { ERROR_ANIMATION_CONFIG } from './constants';
-import styles from './styles';
 import { getLoginButtonConfig, signIn } from './utils';
+import styles from './styles';
 
 export default class Login extends Component {
   static propTypes = {
@@ -28,8 +29,6 @@ export default class Login extends Component {
     isModalVisible: false,
   };
 
-  loginButtonAnimation = new Animated.Value(0);
-
   handleError = (message) => {
     this.setState(({ error }) => {
       if (!message && !error) {
@@ -37,20 +36,9 @@ export default class Login extends Component {
       }
 
       LayoutAnimation.configureNext(ERROR_ANIMATION_CONFIG);
-      this.animateLoginButton();
       return { error: message };
     });
   };
-
-  animateLoginButton = () => {
-    this.loginButtonAnimation.setValue(0);
-    Animated.timing(this.loginButtonAnimation, {
-      toValue: 1,
-      duration: 300,
-      easing: Easing.bounce,
-      useNativeDriver: true,
-    }).start();
-  }
 
   handleLoginClick = async () => {
     const { email, password } = this.state;
@@ -61,7 +49,7 @@ export default class Login extends Component {
     }
 
     try {
-      this.setState({ loading: true }, this.animateLoginButton);
+      this.setState({ loading: true });
 
       /* eslint-disable-next-line no-unused-vars */
       const token = await signIn(email, password);
@@ -72,7 +60,7 @@ export default class Login extends Component {
       if (error instanceof UnauthorizedError) {
         this.handleError(error.message);
       } else {
-        this.setState({ isModalVisible: true }, this.animateLoginButton);
+        this.setState({ isModalVisible: true });
       }
     } finally {
       this.setState({ loading: false });
@@ -103,12 +91,7 @@ export default class Login extends Component {
   render() {
     const { error, isModalVisible, loading } = this.state;
 
-    const scale = this.loginButtonAnimation.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, 1],
-    });
-
-    const { backgroundColor, buttonText } = getLoginButtonConfig(error, loading);
+    const { buttonText } = getLoginButtonConfig(error, loading);
 
     return (
       <View style={styles.container}>
@@ -138,23 +121,12 @@ export default class Login extends Component {
           />
           {error ? <Text style={styles.error}>{error}</Text> : null}
 
-          <TouchableOpacity
+          <Button
             onPress={this.handleLoginClick}
-            style={styles.button}
-          >
-            <Animated.View
-              style={{
-                ...styles.buttonAnimation,
-                backgroundColor,
-                transform: [{ scale }],
-              }}
-            >
-            </Animated.View>
-
-            <Text style={styles.buttonText}>
-              {buttonText}
-            </Text>
-          </TouchableOpacity>
+            text={buttonText}
+            loading={loading}
+            error={!!error || isModalVisible}
+          />
 
         </View>
 
