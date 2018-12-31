@@ -1,6 +1,7 @@
 export const ICON_TYPE = {
   MAP: 'MAP',
   SMILE: 'SMILE',
+  FROWN: 'FROWN',
   STAR: 'STAR',
   CAMERA: 'CAMERA',
   GIFT: 'GIFT',

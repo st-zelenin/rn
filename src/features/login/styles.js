@@ -24,6 +24,12 @@ export default StyleSheet.create({
     color: primaryColors.limeGreen,
     textAlign: 'center',
   },
+  frown: {
+    fontFamily: 'faSolid',
+    fontSize: 24,
+    color: secondaryColors.coral,
+    textAlign: 'center',
+  },
   textInput: {
     borderWidth: 1,
     borderRadius: 2,
@@ -37,5 +43,31 @@ export default StyleSheet.create({
   error: {
     fontFamily: 'source-sans-pro',
     color: secondaryColors.coral,
+    marginHorizontal: 10,
+    textAlign: 'center',
+  },
+  button: {
+    backgroundColor: secondaryColors.brightBlue,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 2,
+    marginVertical: 10,
+    marginHorizontal: 5,
+    width: 50,
+    height: 30,
+  },
+  buttonText: {
+    color: primaryColors.white,
+    fontFamily: 'source-sans-pro',
+    textAlign: 'center',
+  },
+  buttonAnimation: {
+    position: 'absolute',
+    flex: 1,
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    borderRadius: 2,
   },
 });

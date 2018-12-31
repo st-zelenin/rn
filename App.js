@@ -1,7 +1,12 @@
-import React, { Component } from 'react';
 import { Font } from 'expo';
+import React, { Component } from 'react';
+import { Platform, UIManager } from 'react-native';
 
 import NavigationContainer from './src/core/navigation';
+
+if (Platform.OS === 'android') {
+  UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 export default class App extends Component {
   state = {

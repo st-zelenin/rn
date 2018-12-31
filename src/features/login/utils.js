@@ -1,5 +1,6 @@
 import { authTokenUrl } from '../../../config.json';
 import { UnauthorizedError } from '../../core/errors';
+import { secondaryColors } from '../../shared/styles';
 
 export const signIn = async (username, password) => {
   const response = await fetch(authTokenUrl, {
@@ -18,4 +19,18 @@ export const signIn = async (username, password) => {
   }
 
   return response.json();
+};
+
+export const getLoginButtonConfig = (error, loading) => {
+  let backgroundColor = secondaryColors.brightBlue;
+  let buttonText = 'login';
+  if (error) {
+    backgroundColor = secondaryColors.coral;
+    buttonText = 'error';
+  } else if (loading) {
+    backgroundColor = secondaryColors.lightGray;
+    buttonText = 'loading';
+  }
+
+  return { backgroundColor, buttonText };
 };
