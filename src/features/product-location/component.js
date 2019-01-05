@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { MapView } from 'expo';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 import { Linking } from 'react-native';
 
+import { COORDINATE_ANIMATION_LENGTH, INITIAL_REGION_SETTINGS, USER_CURRENT_LOCATION } from './constants';
 import styles from './styles';
 
 export default class ProductLocation extends Component {
@@ -30,19 +31,27 @@ export default class ProductLocation extends Component {
     }
   }
 
+  moveToProductLocation =
+    () => this.map.animateToCoordinate(this.product.location, COORDINATE_ANIMATION_LENGTH);
+
+  setMapInstance = (el) => { this.map = el; }
+
   render() {
     const { location, name } = this.product;
-    const { latitude, longitude } = location;
+    const { latitude, longitude } = USER_CURRENT_LOCATION;
+    const { latitudeDelta, longitudeDelta } = INITIAL_REGION_SETTINGS;
 
     return (
       <MapView
+        ref={this.setMapInstance}
         style={styles.container}
         initialRegion={{
           latitude,
           longitude,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          latitudeDelta,
+          longitudeDelta,
         }}
+        onMapReady={this.moveToProductLocation}
       >
         <MapView.Marker
           coordinate={location}
