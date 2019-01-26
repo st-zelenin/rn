@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
-import {
-  Text, View, TouchableHighlight, BackHandler,
-} from 'react-native';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { BackHandler, Text, View } from 'react-native';
 
-import { products } from './constants';
-import styles from './styles';
-import IconSet, { ICON_TYPE } from '../../shared/icons';
 import { ROUTES } from '../../core/navigation';
+import { products } from './constants';
+import ProductRow from './product-row';
+import styles from './styles';
 
 export default class ProductList extends Component {
   static propTypes = {
@@ -56,16 +54,11 @@ export default class ProductList extends Component {
         <View style={styles.productsTable}>
           {
             products.map(product => (
-              <View key={product.id} style={styles.productsTableRow}>
-                <IconSet name={product.icon} style={styles.productIcon} />
-                <Text style={styles.productName}>{product.name}</Text>
-                <TouchableHighlight
-                  onPress={() => this.handleProductDetailsOpen(product)}
-                  style={styles.goToDetailsButton}
-                >
-                  <IconSet name={ICON_TYPE.ARROW_RIGHT} style={styles.goToDetailsButtonIcon} />
-                </TouchableHighlight>
-              </View>
+              <ProductRow
+                key={product.id}
+                product={product}
+                onDetailsPress={this.handleProductDetailsOpen}
+              />
             ))
           }
         </View>
