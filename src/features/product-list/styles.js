@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-import baseStyles, { primaryColors, secondaryColors } from '../../shared/styles';
+import baseStyles, { primaryColors } from '../../shared/styles';
 
 export default StyleSheet.create({
   ...baseStyles,
@@ -18,50 +18,15 @@ export default StyleSheet.create({
     width: '100%',
     flex: 1,
   },
-  productsTableRow: {
-    flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderColor: primaryColors.epamBlue,
-    backgroundColor: primaryColors.white,
-  },
-  productName: {
-    flex: 1,
-    paddingLeft: 20,
-    lineHeight: 30,
-    fontFamily: 'source-sans-pro',
-    color: secondaryColors.darkGray,
-  },
-  productIcon: {
-    color: secondaryColors.coral,
-    paddingLeft: 15,
-    paddingVertical: 5,
-    width: 35,
-    fontSize: 18,
-  },
-  goToDetailsButton: {
-    width: 18,
-    height: 18,
-    backgroundColor: secondaryColors.brightBlue,
-    borderRadius: 10,
-    borderWidth: 0.5,
-    borderColor: secondaryColors.darkBlue,
-    margin: 5,
-    alignItems: 'center',
-  },
-  goToDetailsButtonIcon: {
-    fontSize: 10,
-    color: secondaryColors.darkBlue,
-    lineHeight: 17,
-  },
-  modal: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: secondaryColors.darkBlue,
-  },
-  contentContainer: {
-    backgroundColor: secondaryColors.lightGray,
-    padding: 30,
-  },
+  // modal: {
+  //   flex: 1,
+  //   flexDirection: 'column',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   borderColor: secondaryColors.darkBlue,
+  // },
+  // contentContainer: {
+  //   backgroundColor: secondaryColors.lightGray,
+  //   padding: 30,
+  // },
 });

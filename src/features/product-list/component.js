@@ -1,14 +1,14 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  Text, View, TouchableHighlight, BackHandler, FlatList,
+  BackHandler, FlatList, Text, View,
 } from 'react-native';
-import PropTypes from 'prop-types';
 
-import styles from './styles';
-import { loadProducts, extendProducts } from './utils';
-import IconSet, { ICON_TYPE } from '../../shared/icons';
 import { ROUTES } from '../../core/navigation';
 import RetryModal from '../../shared/retry-modal';
+import ProductRow from './product-row';
+import { extendProducts, loadProducts } from './utils';
+import styles from './styles';
 
 export default class ProductList extends Component {
   static propTypes = {
@@ -118,20 +118,14 @@ export default class ProductList extends Component {
       <View style={styles.container}>
         <Text style={styles.title}>Products</Text>
         <View style={styles.productsTable}>
+
           <FlatList
             data={products}
             renderItem={({ item }) => (
-              <View style={styles.productsTableRow}>
-                {/* <IconSet name={product.icon} style={styles.productIcon} /> */}
-                <Text style={styles.icon}>{item.id}</Text>
-                <Text style={styles.productName}>{item.name}</Text>
-                <TouchableHighlight
-                  onPress={() => this.handleProductDetailsOpen(item)}
-                  style={styles.goToDetailsButton}
-                >
-                  <IconSet name={ICON_TYPE.ARROW_RIGHT} style={styles.goToDetailsButtonIcon} />
-                </TouchableHighlight>
-              </View>
+              <ProductRow
+                product={item}
+                onDetailsPress={this.handleProductDetailsOpen}
+              />
             )}
             keyExtractor={this.keyExtractor}
             onEndReached={this.handleEndReached}
