@@ -1,14 +1,13 @@
 {
   "env": {
-      "node": true,
-      "browser": true,
-      "es6": true
+    "node": true,
+    "browser": true,
+    "es6": true
   },
   "parser": "babel-eslint",
   "extends": "airbnb",
-  
-  "rules" : {
-    "react/jsx-filename-extension" : "off",
+  "rules": {
+    "react/jsx-filename-extension": "off",
     "react/jsx-boolean-value": "off",
     "react/no-unescaped-entities": "off",
     "react/forbid-prop-types": "off",

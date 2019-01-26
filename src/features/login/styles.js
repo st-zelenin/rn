@@ -34,4 +34,8 @@ export default StyleSheet.create({
     width: 250,
     textAlign: 'center',
   },
+  error: {
+    fontFamily: 'source-sans-pro',
+    color: secondaryColors.coral,
+  },
 });

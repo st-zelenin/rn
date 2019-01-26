@@ -4,26 +4,41 @@ import PropTypes from 'prop-types';
 
 import Button from '../../shared/button';
 import styles from './styles';
+import { signIn } from './utils';
+import { ROUTES } from '../../core/navigation';
 
 export default class Login extends Component {
   static propTypes = {
-    onLogin: PropTypes.func.isRequired,
-  }
+    navigation: PropTypes.object.isRequired,
+  };
+
+  static navigationOptions = {
+    title: 'Login',
+  };
 
   state = {
     email: '',
     password: '',
+    error: '',
   };
 
-  handleLoginClick = () => {
+  handleLoginClick = async () => {
     const { email, password } = this.state;
 
     if (!email || !password) {
+      this.setState({ error: 'email and password are required' });
       return;
     }
 
-    const { onLogin } = this.props;
-    onLogin();
+    try {
+      /* eslint-disable-next-line no-unused-vars */
+      const token = await signIn(email, password);
+
+      const { navigation } = this.props;
+      navigation.navigate(ROUTES.PRODUCT_LIST);
+    } catch ({ message }) {
+      this.setState({ error: message });
+    }
   };
 
   handleEmailChange = email => this.setState({ email });
@@ -31,6 +46,8 @@ export default class Login extends Component {
   handlePasswordChange = password => this.setState({ password });
 
   render() {
+    const { error } = this.state;
+
     return (
       <View style={styles.container}>
 
@@ -53,6 +70,7 @@ export default class Login extends Component {
             textContentType="password"
             secureTextEntry={true}
           />
+          {error ? <Text style={styles.error}>{error}</Text> : null}
 
           <Button text="login" onPress={this.handleLoginClick} />
 
