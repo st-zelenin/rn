@@ -20,7 +20,7 @@ export default class ProductRow extends Component {
     const { product } = this.props;
     return (
       <View style={styles.productsTableRow}>
-        <IconSet name={product.icon} style={styles.productIcon} />
+        {/* <IconSet name={product.icon} style={styles.productIcon} /> */}
         <Text style={styles.productName}>{product.name}</Text>
         <TouchableHighlight
           onPress={this.handleProductDetailsOpen}

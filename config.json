@@ -1,3 +1,4 @@
 {
   "authTokenUrl": "http://ecsc00a02fb3.epam.com/index.php/rest/V1/integration/customer/token",
+  "apiUrl": "http://ecsc00a02fb3.epam.com/rest/V1/"
 }

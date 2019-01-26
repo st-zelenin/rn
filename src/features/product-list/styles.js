@@ -18,4 +18,15 @@ export default StyleSheet.create({
     width: '100%',
     flex: 1,
   },
+  // modal: {
+  //   flex: 1,
+  //   flexDirection: 'column',
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   borderColor: secondaryColors.darkBlue,
+  // },
+  // contentContainer: {
+  //   backgroundColor: secondaryColors.lightGray,
+  //   padding: 30,
+  // },
 });

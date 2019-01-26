@@ -1,10 +1,13 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { BackHandler, Text, View } from 'react-native';
+import {
+  BackHandler, FlatList, Text, View,
+} from 'react-native';
 
 import { ROUTES } from '../../core/navigation';
-import { products } from './constants';
+import RetryModal from '../../shared/retry-modal';
 import ProductRow from './product-row';
+import { extendProducts, loadProducts } from './utils';
 import styles from './styles';
 
 export default class ProductList extends Component {
@@ -25,13 +28,26 @@ export default class ProductList extends Component {
       'didFocus',
       () => BackHandler.addEventListener('hardwareBackPress', this.handleBackPress),
     );
+
+    this.state = {
+      isModalVisible: false,
+      isLoading: false,
+      products: [],
+      chunkNumber: 1,
+    };
   }
 
   componentDidMount() {
     const { navigation } = this.props;
+
     this.willBlurSubscription = navigation.addListener(
       'willBlur',
       () => BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress),
+    );
+
+    this.setState(
+      { isLoading: true },
+      this.loadNextChunk,
     );
   }
 
@@ -40,6 +56,25 @@ export default class ProductList extends Component {
     if (this.willBlurSubscription) this.willBlurSubscription.remove();
   }
 
+  loadNextChunk = async () => {
+    const { chunkNumber, products: loadedProducts } = this.state;
+    try {
+      const chunk = await loadProducts(chunkNumber);
+      this.setState(({ products }) => {
+        if (chunk.total_count > loadedProducts.length) {
+          const extendedProducts = extendProducts(chunk.items);
+          return { products: products.concat(extendedProducts) };
+        }
+
+        return null;
+      });
+    } catch {
+      this.setState({ isModalVisible: true });
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
+
   handleBackPress = () => true;
 
   handleProductDetailsOpen = (product) => {
@@ -47,21 +82,69 @@ export default class ProductList extends Component {
     navigation.navigate(ROUTES.PRODUCT_DETAILS, { product });
   }
 
+  handleModalClose = () => {
+    this.setState({ isModalVisible: false });
+  }
+
+  handleRetry = () => {
+    this.setState(
+      { isModalVisible: false, isLoading: true },
+      this.loadNextChunk,
+    );
+  }
+
+  keyExtractor = ({ id }) => id.toString();
+
+  handleEndReached = () => {
+    // work-around, see: https://github.com/facebook/react-native/issues/14015#issuecomment-310675650
+    if (!this.onEndReachedCalledDuringMomentum) {
+      this.setState(
+        ({ chunkNumber }) => ({ chunkNumber: chunkNumber + 1, isLoading: true }),
+        this.loadNextChunk,
+      );
+      this.onEndReachedCalledDuringMomentum = true;
+    }
+  }
+
+  handleRefresh = () => this.setState(
+    { chunkNumber: 1, isLoading: true, products: [] },
+    this.loadNextChunk,
+  );
+
   render() {
+    const { isModalVisible, products, isLoading } = this.state;
+
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Products</Text>
         <View style={styles.productsTable}>
-          {
-            products.map(product => (
+
+          <FlatList
+            data={products}
+            renderItem={({ item }) => (
               <ProductRow
-                key={product.id}
-                product={product}
+                product={item}
                 onDetailsPress={this.handleProductDetailsOpen}
               />
-            ))
-          }
+            )}
+            keyExtractor={this.keyExtractor}
+            onEndReached={this.handleEndReached}
+            onEndReachedThreshold={0.5}
+
+            // work-around, see: https://github.com/facebook/react-native/issues/14015#issuecomment-310675650
+            onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
+
+            // adds `pull-to-refresh`
+            onRefresh={this.handleRefresh}
+            refreshing={isLoading}
+          />
         </View>
+
+        <RetryModal
+          isVisible={isModalVisible}
+          onRetryClick={this.handleRetry}
+          onCancelClick={this.handleModalClose}
+        />
       </View>
     );
   }
