@@ -14,6 +14,7 @@ const glyphMap = {
   [ICON_TYPE.CART]: 0xf07a,
   [ICON_TYPE.FOOTBALL_BALL]: 0xf44e,
   [ICON_TYPE.ARROW_RIGHT]: 0xf054,
+  [ICON_TYPE.TIMES]: 0xf00d,
 };
 
 const iconSet = createIconSet(glyphMap, 'faSolid');

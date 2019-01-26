@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Platform, UIManager } from 'react-native';
 
 import NavigationContainer from './src/core/navigation';
+import ConnectionWatcher from './src/core/connection-watcher';
 
 if (Platform.OS === 'android') {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -33,6 +34,11 @@ export default class App extends Component {
       return null;
     }
 
-    return <NavigationContainer />;
+    return (
+      <>
+        <ConnectionWatcher />
+        <NavigationContainer />
+      </>
+    );
   }
 }

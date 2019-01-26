@@ -15,7 +15,6 @@ class AuthLoading extends React.Component {
   checkAuth = async () => {
     const { navigation } = this.props;
     const token = await AsyncStorage.getItem('RNHW:token');
-    console.log(token);
 
     navigation.navigate(token ? STACKS.APP_STACK : STACKS.AUTH_STACK);
   };
