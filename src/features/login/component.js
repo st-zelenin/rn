@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  LayoutAnimation, Text, TextInput, View,
+  AsyncStorage, LayoutAnimation, Text, TextInput, View,
 } from 'react-native';
 
 import { UnauthorizedError } from '../../core/errors';
@@ -42,6 +42,7 @@ export default class Login extends Component {
 
   handleLoginClick = async () => {
     const { email, password } = this.state;
+    let isLoginSuccessfull = false;
 
     if (!email || !password) {
       this.handleError('email and password are required');
@@ -53,9 +54,9 @@ export default class Login extends Component {
 
       /* eslint-disable-next-line no-unused-vars */
       const token = await signIn(email, password);
+      await AsyncStorage.setItem('RNHW:token', token);
 
-      const { navigation } = this.props;
-      navigation.navigate(ROUTES.PRODUCT_LIST);
+      isLoginSuccessfull = true;
     } catch (error) {
       if (error instanceof UnauthorizedError) {
         this.handleError(error.message);
@@ -64,6 +65,11 @@ export default class Login extends Component {
       }
     } finally {
       this.setState({ loading: false });
+    }
+
+    if (isLoginSuccessfull) {
+      const { navigation } = this.props;
+      navigation.navigate(ROUTES.PRODUCT_LIST);
     }
   };
 

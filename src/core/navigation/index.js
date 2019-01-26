@@ -1,2 +1,2 @@
 export { default } from './component';
-export { ROUTES } from './constants';
+export { ROUTES, STACKS } from './constants';
