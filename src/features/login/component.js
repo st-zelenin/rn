@@ -23,8 +23,8 @@ export default class Login extends Component {
   };
 
   state = {
-    email: '',
-    password: '',
+    email: 'Stepan_Zelenin@epam.com',
+    password: 'Stepan123',
     error: '',
     isModalVisible: false,
   };
