@@ -1,46 +1,73 @@
-import React from 'react';
-import { Text, View, Modal } from 'react-native';
+import React, { Component } from 'react';
+import {
+  Text, View, Modal, Vibration,
+} from 'react-native';
 import PropTypes from 'prop-types';
 
 import styles from './styles';
 import Button from '../button';
 
-const RetryModal = ({ isVisible, onRetryClick, onCancelClick }) => (
-  <Modal
-    animationType="none"
-    transparent={true}
-    visible={isVisible}
-    onRequestClose={onCancelClick}
-  >
-    <View style={styles.root}>
-      <View style={styles.contentContainer}>
+class RetryModal extends Component {
+  static propTypes = {
+    isVisible: PropTypes.bool,
+    onRetryClick: PropTypes.func.isRequired,
+    onCancelClick: PropTypes.func.isRequired,
+  };
 
-        <Text style={styles.message}>Something went wrong. Do you want to retry?</Text>
+  static defaultProps = {
+    isVisible: false,
+  };
 
-        <View style={styles.buttons}>
-          <Button
-            text="Retry"
-            onPress={onRetryClick}
-          />
-          <Button
-            text="Cancel"
-            onPress={onCancelClick}
-          />
+  vibrateDuration = 2000;
+
+  componentDidMount() {
+    const { isVisible } = this.props;
+    if (isVisible) {
+      Vibration.vibrate(this.vibrateDuration);
+    }
+  }
+
+  componentDidUpdate({ isVisible: prevIsVisible }) {
+    const { isVisible } = this.props;
+    if (!prevIsVisible && isVisible) {
+      Vibration.vibrate(this.vibrateDuration);
+    }
+  }
+
+  render() {
+    const { isVisible, onRetryClick, onCancelClick } = this.props;
+    if (!isVisible) {
+      return null;
+    }
+
+    return (
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={isVisible}
+        onRequestClose={onCancelClick}
+      >
+        <View style={styles.root}>
+          <View style={styles.contentContainer}>
+
+            <Text style={styles.message}>Something went wrong. Do you want to retry?</Text>
+
+            <View style={styles.buttons}>
+              <Button
+                text="Retry"
+                onPress={onRetryClick}
+              />
+              <Button
+                text="Cancel"
+                onPress={onCancelClick}
+              />
+            </View>
+
+          </View>
         </View>
-
-      </View>
-    </View>
-  </Modal>
-);
-
-RetryModal.propTypes = {
-  isVisible: PropTypes.bool,
-  onRetryClick: PropTypes.func.isRequired,
-  onCancelClick: PropTypes.func.isRequired,
-};
-
-RetryModal.defaultProps = {
-  isVisible: false,
-};
+      </Modal>
+    );
+  }
+}
 
 export default RetryModal;
