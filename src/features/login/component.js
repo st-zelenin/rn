@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import {
   AsyncStorage, LayoutAnimation, Text, TextInput, View,
 } from 'react-native';
+import LottieView from 'lottie-react-native';
 
 import { UnauthorizedError } from '../../core/errors';
 import { ROUTES } from '../../core/navigation';
@@ -11,6 +12,7 @@ import IconSet, { ICON_TYPE } from '../../shared/icons';
 import RetryModal from '../../shared/retry-modal';
 import { ERROR_ANIMATION_CONFIG } from './constants';
 import { getLoginButtonConfig, signIn } from './utils';
+import animation from './animation.json';
 import styles from './styles';
 
 export default class Login extends Component {
@@ -108,6 +110,11 @@ export default class Login extends Component {
               ? <IconSet name={ICON_TYPE.FROWN} style={styles.frown} />
               : <IconSet name={ICON_TYPE.SMILE} style={styles.smile} />
           }
+          <LottieView
+            source={animation}
+            autoPlay
+            loop
+          />
           <Text style={styles.appTitle}>Friday's shop</Text>
         </View>
 
