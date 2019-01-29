@@ -1,19 +1,21 @@
+import LottieView from 'lottie-react-native';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
   AsyncStorage, LayoutAnimation, Text, TextInput, View,
 } from 'react-native';
-import LottieView from 'lottie-react-native';
+import DeviceInfo from 'react-native-device-info';
 
 import { UnauthorizedError } from '../../core/errors';
 import { ROUTES } from '../../core/navigation';
 import Button from '../../shared/button';
-import IconSet, { ICON_TYPE } from '../../shared/icons';
 import RetryModal from '../../shared/retry-modal';
 import { ERROR_ANIMATION_CONFIG } from './constants';
-import { getLoginButtonConfig, signIn } from './utils';
-import animation from './animation.json';
+import shoppingBagErrorAnimation from './shopping-bag-error.animation.json';
+import shoppingBagAnimation from './shopping-bag.animation.json';
 import styles from './styles';
+import { getLoginButtonConfig, signIn, getGreetingMessage } from './utils';
+
 
 export default class Login extends Component {
   static propTypes = {
@@ -25,11 +27,38 @@ export default class Login extends Component {
   };
 
   state = {
-    email: 'Stepan_Zelenin@epam.com',
-    password: 'Stepan123',
+    email: '',
+    password: '',
     error: '',
     isModalVisible: false,
   };
+
+  constructor(props) {
+    super(props);
+
+    const systemName = DeviceInfo.getSystemName();
+    const isTablet = DeviceInfo.isTablet();
+    this.greeting = getGreetingMessage(systemName, isTablet);
+  }
+
+  componentDidMount() {
+    this.okAnimation.play();
+  }
+
+  initGreetingMessage = () => {
+    const systemName = DeviceInfo.getSystemName();
+    const isTablet = DeviceInfo.isTablet();
+
+    let deviceType = 'unknown device';
+    if (systemName === 'Android') {
+      deviceType = isTablet ? 'Android tablet' : 'Android phone';
+    } else {
+      deviceType = isTablet ? 'iPad' : 'iPhone';
+    }
+
+    return `Thank you for using our app on your ${deviceType}`;
+  }
+
 
   handleError = (message) => {
     this.setState(({ error }) => {
@@ -38,7 +67,14 @@ export default class Login extends Component {
       }
 
       LayoutAnimation.configureNext(ERROR_ANIMATION_CONFIG);
+
       return { error: message };
+    }, () => {
+      if (!message) {
+        this.okAnimation.play();
+      } else {
+        this.errorAnimation.play();
+      }
     });
   };
 
@@ -107,15 +143,22 @@ export default class Login extends Component {
         <View style={styles.loginHeader}>
           {
             error
-              ? <IconSet name={ICON_TYPE.FROWN} style={styles.frown} />
-              : <IconSet name={ICON_TYPE.SMILE} style={styles.smile} />
+              ? (
+                <LottieView
+                  ref={(animation) => { this.errorAnimation = animation; }}
+                  source={shoppingBagErrorAnimation}
+                  loop={false}
+                />
+              )
+              : (
+                <LottieView
+                  ref={(animation) => { this.okAnimation = animation; }}
+                  source={shoppingBagAnimation}
+                />
+              )
           }
-          <LottieView
-            source={animation}
-            autoPlay
-            loop
-          />
           <Text style={styles.appTitle}>Friday's shop</Text>
+          <Text style={styles.greeting}>{this.greeting}</Text>
         </View>
 
         <View style={styles.loginForm}>

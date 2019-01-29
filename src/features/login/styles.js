@@ -15,20 +15,12 @@ export default StyleSheet.create({
   appTitle: {
     fontFamily: 'cylburn',
     fontSize: 40,
-    paddingVertical: 40,
+    paddingVertical: 20,
     textAlign: 'center',
   },
-  smile: {
-    fontFamily: 'faSolid',
-    fontSize: 24,
-    color: primaryColors.limeGreen,
-    textAlign: 'center',
-  },
-  frown: {
-    fontFamily: 'faSolid',
-    fontSize: 24,
-    color: secondaryColors.coral,
-    textAlign: 'center',
+  greeting: {
+    fontFamily: 'cylburn',
+    fontSize: 18,
   },
   textInput: {
     borderWidth: 1,

@@ -34,3 +34,14 @@ export const getLoginButtonConfig = (error, loading) => {
 
   return { backgroundColor, buttonText };
 };
+
+export const getGreetingMessage = (systemName, isTablet) => {
+  let deviceType = 'unknown device';
+  if (systemName === 'Android') {
+    deviceType = isTablet ? 'Android tablet' : 'Android phone';
+  } else {
+    deviceType = isTablet ? 'iPad' : 'iPhone';
+  }
+
+  return `Thank you for using our app on your ${deviceType}`;
+};
