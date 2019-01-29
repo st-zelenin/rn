@@ -1,6 +1,7 @@
 import { Font } from 'expo';
 import React, { Component } from 'react';
 import { Platform, UIManager } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 
 import NavigationContainer from './src/core/navigation';
 import ConnectionWatcher from './src/core/connection-watcher';
@@ -25,6 +26,7 @@ export default class App extends Component {
     });
 
     this.setState({ fontsLoaded: true });
+    SplashScreen.hide();
   }
 
   render() {

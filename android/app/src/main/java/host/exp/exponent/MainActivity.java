@@ -4,13 +4,21 @@ import android.os.Bundle;
 
 import com.facebook.react.ReactPackage;
 
+import org.devio.rn.splashscreen.SplashScreen;
+
 import java.util.List;
 
 import expo.core.interfaces.Package;
-import host.exp.exponent.generated.DetachBuildConstants;
 import host.exp.exponent.experience.DetachActivity;
+import host.exp.exponent.generated.DetachBuildConstants;
 
 public class MainActivity extends DetachActivity {
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    SplashScreen.show(this);  // here
+    super.onCreate(savedInstanceState);
+  }
 
   @Override
   public String publishedUrl() {
