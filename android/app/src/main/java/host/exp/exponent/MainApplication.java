@@ -37,6 +37,7 @@ import expolib_v1.okhttp3.OkHttpClient;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.airbnb.android.react.lottie.LottiePackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import com.stz.RNCustomAsyncStorage.RNCustomAsyncStoragePackage;
 
 public class MainApplication extends ExpoApplication implements AppLoaderPackagesProviderInterface<ReactPackage> {
 
@@ -55,7 +56,8 @@ public class MainApplication extends ExpoApplication implements AppLoaderPackage
         // new MainReactPackage(),
             new RNDeviceInfo(),
             new LottiePackage(),
-            new SplashScreenReactPackage()
+            new SplashScreenReactPackage(),
+            new RNCustomAsyncStoragePackage()
     );
   }
 

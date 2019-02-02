@@ -2,7 +2,7 @@ import LottieView from 'lottie-react-native';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  AsyncStorage, LayoutAnimation, Text, TextInput, View,
+  LayoutAnimation, NativeModules, Text, TextInput, View
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
@@ -14,7 +14,7 @@ import { ERROR_ANIMATION_CONFIG } from './constants';
 import shoppingBagErrorAnimation from './shopping-bag-error.animation.json';
 import shoppingBagAnimation from './shopping-bag.animation.json';
 import styles from './styles';
-import { getLoginButtonConfig, signIn, getGreetingMessage } from './utils';
+import { getGreetingMessage, getLoginButtonConfig, signIn } from './utils';
 
 
 export default class Login extends Component {
@@ -92,7 +92,7 @@ export default class Login extends Component {
 
       /* eslint-disable-next-line no-unused-vars */
       const token = await signIn(email, password);
-      await AsyncStorage.setItem('RNHW:token', token);
+      await NativeModules.RNCustomAsyncStorage.setItem('RNHW:token', token);
 
       isLoginSuccessfull = true;
     } catch (error) {

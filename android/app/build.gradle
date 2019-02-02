@@ -236,7 +236,9 @@ dependencies {
   api 'host.exp.exponent:expo-sms:2.0.0'
   api 'host.exp.exponent:expo-background-fetch:1.0.0'
 
-  
+  def room_version = "1.1.1"
+  implementation "android.arch.persistence.room:runtime:$room_version"
+  annotationProcessor "android.arch.persistence.room:compiler:$room_version"
 }
 
 // This has to be down here for some reason
