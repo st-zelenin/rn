@@ -1,4 +1,4 @@
-package com.stz.RNCustomAsyncStorage;
+package com.stz.RNCustomAsyncStorage.db;
 
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.RoomDatabase;

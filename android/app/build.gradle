@@ -77,7 +77,7 @@ android {
     pickFirst "**"
   }
   configurations.all {
-    resolutionStrategy.force 'com.android.support:design:27.1.0', 'com.airbnb.android:lottie:2.5.5', 'com.google.android.gms:play-services-stats:15.0.1', 'com.google.android.gms:play-services-iid:15.0.1', 'com.google.android.gms:play-services-gcm:15.0.1'
+    resolutionStrategy.force 'com.airbnb.android:lottie:2.5.5', 'com.google.android.gms:play-services-stats:16.0.1', 'com.google.android.gms:play-services-flags:16.0.1', 'com.google.android.gms:play-services-measurement-base:16.0.0'
   }
 }
 
@@ -104,9 +104,9 @@ apply from: 'expo.gradle'
 // WHEN_PREPARING_SHELL_REMOVE_TO_HERE
 
 dependencies {
-    compile project(':react-native-device-info')
-    compile project(':lottie-react-native')
-    compile project(':react-native-splash-screen')
+  compile project(':react-native-device-info')
+  compile project(':lottie-react-native')
+  compile project(':react-native-splash-screen')
   implementation fileTree(dir: 'libs', include: ['*.jar'])
 
   implementation 'com.android.support:multidex:1.0.1'
@@ -129,7 +129,7 @@ dependencies {
   implementation 'com.amplitude:android-sdk:2.9.2'
 
   implementation 'com.squareup.picasso:picasso:2.5.2'
-  implementation 'com.google.android.gms:play-services-gcm:15.0.1'
+  implementation 'com.google.android.gms:play-services-gcm:16.0.0'
   implementation 'com.google.android.gms:play-services-analytics:16.0.1'
   implementation 'com.google.android.gms:play-services-maps:15.0.1'
   implementation 'com.google.android.gms:play-services-auth:15.0.1'
