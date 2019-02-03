@@ -40,7 +40,11 @@ public class RNCustomAsyncStorageModule extends ReactContextBaseJavaModule {
     public void getItem(String key, Promise promise) {
         try {
             StorageItem item = this.storageService.getItem(key);
-            promise.resolve(item.value);
+            if (item != null) {
+                promise.resolve(item.value);
+            } else {
+                promise.resolve(null);
+            }
         } catch (Exception ex) {
             promise.reject(ex);
         }
