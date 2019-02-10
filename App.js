@@ -1,6 +1,8 @@
 import { Font } from 'expo';
 import React, { Component } from 'react';
-import { NativeModules, Platform, UIManager } from 'react-native';
+import {
+  NativeEventEmitter, NativeModules, Platform, UIManager,
+} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 
 import ConnectionWatcher from './src/core/connection-watcher';
@@ -28,6 +30,15 @@ export default class App extends Component {
     this.setState({ fontsLoaded: true });
     SplashScreen.hide();
     NativeModules.RNNotifications.init();
+
+    this.emitter = new NativeEventEmitter(NativeModules.RNNotifications);
+    this.emitter.addListener('notificationClicked', (data) => {
+      console.log('data');
+    });
+  }
+
+  componentWillUnmount() {
+    this.emitter.removeAllListeners();
   }
 
   render() {

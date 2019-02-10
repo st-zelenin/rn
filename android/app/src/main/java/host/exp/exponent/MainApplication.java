@@ -36,73 +36,83 @@ import expolib_v1.okhttp3.OkHttpClient;
 // import com.facebook.react.ReactApplication;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.airbnb.android.react.lottie.LottiePackage;
+
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
+
 import com.stz.RNCustomAsyncStorage.RNCustomAsyncStoragePackage;
 import com.stz.RNNotifications.RNNotificationsPackage;
 
 public class MainApplication extends ExpoApplication implements AppLoaderPackagesProviderInterface<ReactPackage> {
 
-  @Override
-  public boolean isDebug() {
-    return BuildConfig.DEBUG;
-  }
+    private RNNotificationsPackage notificationsPackage;
 
-  // Needed for `react-native link`
-  public List<ReactPackage> getPackages() {
-    return Arrays.<ReactPackage>asList(
-        // Add your own packages here!
-        // TODO: add native modules!
+    public RNNotificationsPackage getNotificationsPackage() {
+        return this.notificationsPackage;
+    }
 
-        // Needed for `react-native link`
-        // new MainReactPackage(),
-        new RNDeviceInfo(),
-        new LottiePackage(),
-        new SplashScreenReactPackage(),
-        new RNCustomAsyncStoragePackage(),
-        new RNNotificationsPackage()
-    );
-  }
+    @Override
+    public boolean isDebug() {
+        return BuildConfig.DEBUG;
+    }
 
-  public List<Package> getExpoPackages() {
-    return Arrays.<Package>asList(
-        new CameraPackage(),
-        new ConstantsPackage(),
-        new SensorsPackage(),
-        new FileSystemPackage(),
-        new FaceDetectorPackage(),
-        new GLPackage(),
-        new GoogleSignInPackage(),
-        new PermissionsPackage(),
-        new SMSPackage(),
-        new PrintPackage(),
-        new ConstantsPackage(),
-        new MediaLibraryPackage(),
-        new SegmentPackage(),
-        new FontLoaderPackage(),
-        new LocationPackage(),
-        new ContactsPackage(),
-        new BarCodeScannerPackage(),
-        new AdMobPackage(),
-        new LocalAuthenticationPackage(),
-        new LocalizationPackage(),
-        new AppAuthPackage(),
-        new TaskManagerPackage(),
-        new BackgroundFetchPackage()
-    );
-  }
+    // Needed for `react-native link`
+    public List<ReactPackage> getPackages() {
+        this.notificationsPackage = new RNNotificationsPackage();
 
-  @Override
-  public String gcmSenderId() {
-    return getString(R.string.gcm_defaultSenderId);
-  }
+        return Arrays.<ReactPackage>asList(
+                // Add your own packages here!
+                // TODO: add native modules!
 
-  @Override
-  public boolean shouldUseInternetKernel() {
-    return BuildVariantConstants.USE_INTERNET_KERNEL;
-  }
+                // Needed for `react-native link`
+                // new MainReactPackage(),
+                new RNDeviceInfo(),
+                new LottiePackage(),
+                new SplashScreenReactPackage(),
+                new RNCustomAsyncStoragePackage(),
+                this.notificationsPackage
+        );
+    }
 
-  public static OkHttpClient.Builder okHttpClientBuilder(OkHttpClient.Builder builder) {
-    // Customize/override OkHttp client here
-    return builder;
-  }
+    public List<Package> getExpoPackages() {
+        return Arrays.<Package>asList(
+                new CameraPackage(),
+                new ConstantsPackage(),
+                new SensorsPackage(),
+                new FileSystemPackage(),
+                new FaceDetectorPackage(),
+                new GLPackage(),
+                new GoogleSignInPackage(),
+                new PermissionsPackage(),
+                new SMSPackage(),
+                new PrintPackage(),
+                new ConstantsPackage(),
+                new MediaLibraryPackage(),
+                new SegmentPackage(),
+                new FontLoaderPackage(),
+                new LocationPackage(),
+                new ContactsPackage(),
+                new BarCodeScannerPackage(),
+                new AdMobPackage(),
+                new LocalAuthenticationPackage(),
+                new LocalizationPackage(),
+                new AppAuthPackage(),
+                new TaskManagerPackage(),
+                new BackgroundFetchPackage()
+        );
+    }
+
+    @Override
+    public String gcmSenderId() {
+        return getString(R.string.gcm_defaultSenderId);
+    }
+
+    @Override
+    public boolean shouldUseInternetKernel() {
+        return BuildVariantConstants.USE_INTERNET_KERNEL;
+    }
+
+    public static OkHttpClient.Builder okHttpClientBuilder(OkHttpClient.Builder builder) {
+        // Customize/override OkHttp client here
+        return builder;
+    }
 }

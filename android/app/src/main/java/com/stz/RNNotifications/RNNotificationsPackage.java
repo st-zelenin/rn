@@ -11,13 +11,20 @@ import java.util.Collections;
 import java.util.List;
 
 public class RNNotificationsPackage implements ReactPackage {
+    private RNNotificationsModule notificationsModule;
+
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-        return Arrays.<NativeModule>asList(new RNNotificationsModule(reactContext));
+        this.notificationsModule = new RNNotificationsModule(reactContext);
+        return Arrays.<NativeModule>asList(this.notificationsModule);
     }
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         return Collections.emptyList();
+    }
+
+    public RNNotificationsModule getNotificationsModule() {
+        return this.notificationsModule;
     }
 }
