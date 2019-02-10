@@ -38,6 +38,7 @@ import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.airbnb.android.react.lottie.LottiePackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.stz.RNCustomAsyncStorage.RNCustomAsyncStoragePackage;
+import com.stz.RNNotifications.RNNotificationsPackage;
 
 public class MainApplication extends ExpoApplication implements AppLoaderPackagesProviderInterface<ReactPackage> {
 
@@ -54,10 +55,11 @@ public class MainApplication extends ExpoApplication implements AppLoaderPackage
 
         // Needed for `react-native link`
         // new MainReactPackage(),
-            new RNDeviceInfo(),
-            new LottiePackage(),
-            new SplashScreenReactPackage(),
-            new RNCustomAsyncStoragePackage()
+        new RNDeviceInfo(),
+        new LottiePackage(),
+        new SplashScreenReactPackage(),
+        new RNCustomAsyncStoragePackage(),
+        new RNNotificationsPackage()
     );
   }
 

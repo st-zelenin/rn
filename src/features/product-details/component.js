@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { Text, View, TouchableHighlight } from 'react-native';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { NativeModules, Text, TouchableHighlight, View } from 'react-native';
 
+import { ROUTES } from '../../core/navigation';
+import Button from '../../shared/button';
+import IconSet, { ICON_TYPE } from '../../shared/icons';
 import styles from './styles';
 import { getDescription } from './utils';
-import IconSet, { ICON_TYPE } from '../../shared/icons';
-import Button from '../../shared/button';
-import { ROUTES } from '../../core/navigation';
 
 export default class ProductDetails extends Component {
   static propTypes = {
@@ -21,7 +21,7 @@ export default class ProductDetails extends Component {
     return navigation.getParam('product', {});
   }
 
-  handleGoBackClick = () => {
+  handleGoBackPress = () => {
     const { navigation } = this.props;
     navigation.goBack();
   }
@@ -29,6 +29,10 @@ export default class ProductDetails extends Component {
   handleLocationPress = () => {
     const { navigation } = this.props;
     navigation.navigate(ROUTES.PRODUCT_LOCATION, { product: this.product });
+  }
+
+  handleToCartPress = () => {
+    NativeModules.RNNotifications.notify('test title', 'test message', notificationID => console.log(notificationID));
   }
 
   render() {
@@ -48,7 +52,9 @@ export default class ProductDetails extends Component {
             {description}
           </Text>
 
-          <Button text="All Products" onPress={this.handleGoBackClick} />
+          <Button text="All Products" onPress={this.handleGoBackPress} />
+
+          <Button text="To Cart" onPress={this.handleToCartPress} />
 
         </View>
       </View>

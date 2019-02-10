@@ -1,10 +1,10 @@
 import { Font } from 'expo';
 import React, { Component } from 'react';
-import { Platform, UIManager } from 'react-native';
+import { NativeModules, Platform, UIManager } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 
-import NavigationContainer from './src/core/navigation';
 import ConnectionWatcher from './src/core/connection-watcher';
+import NavigationContainer from './src/core/navigation';
 
 if (Platform.OS === 'android') {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -27,6 +27,7 @@ export default class App extends Component {
 
     this.setState({ fontsLoaded: true });
     SplashScreen.hide();
+    NativeModules.RNNotifications.init();
   }
 
   render() {

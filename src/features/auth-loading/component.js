@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
-  ActivityIndicator, NativeModules, StatusBar, View
+  ActivityIndicator, NativeModules, StatusBar, View,
 } from 'react-native';
 
 import { STACKS } from '../../core/navigation';

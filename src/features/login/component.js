@@ -2,7 +2,7 @@ import LottieView from 'lottie-react-native';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  LayoutAnimation, NativeModules, Text, TextInput, View
+  LayoutAnimation, NativeModules, Text, TextInput, View,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 
