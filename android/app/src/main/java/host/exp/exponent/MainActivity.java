@@ -33,7 +33,7 @@ public class MainActivity extends DetachActivity {
         RNNotificationsPackage notificationsPackage = ((MainApplication) getApplication()).getNotificationsPackage();
         RNNotificationsModule notificationsModule = notificationsPackage.getNotificationsModule();
 
-        notificationsModule.notifyNewIntent();
+        notificationsModule.notifyNewIntent(intent.getExtras());
     }
 
     @Override

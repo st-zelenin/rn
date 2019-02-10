@@ -4,11 +4,15 @@ import {
   NativeEventEmitter, NativeModules, Platform, UIManager,
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
+import { NavigationActions } from 'react-navigation';
 
+import CartProvider from './src/core/cart';
 import ConnectionWatcher from './src/core/connection-watcher';
-import NavigationContainer from './src/core/navigation';
+import NavigationContainer, { ROUTES } from './src/core/navigation';
 
-if (Platform.OS === 'android') {
+const isAndroid = Platform.OS === 'android';
+
+if (isAndroid) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
@@ -29,16 +33,27 @@ export default class App extends Component {
 
     this.setState({ fontsLoaded: true });
     SplashScreen.hide();
-    NativeModules.RNNotifications.init();
 
-    this.emitter = new NativeEventEmitter(NativeModules.RNNotifications);
-    this.emitter.addListener('notificationClicked', (data) => {
-      console.log('data');
-    });
+    if (isAndroid) {
+      NativeModules.RNNotifications.init();
+
+      this.emitter = new NativeEventEmitter(NativeModules.RNNotifications);
+      this.emitter.addListener('notificationClicked', (notificationId) => {
+        if (this.navigatorRef) {
+          this.navigatorRef.dispatch(NavigationActions.navigate({ routeName: ROUTES.CART }));
+          if (notificationId) {
+            console.log(notificationId);
+            NativeModules.RNNotifications.remove(notificationId);
+          }
+        }
+      });
+    }
   }
 
   componentWillUnmount() {
-    this.emitter.removeAllListeners();
+    if (this.emitter) {
+      this.emitter.removeAllListeners();
+    }
   }
 
   render() {
@@ -51,7 +66,11 @@ export default class App extends Component {
     return (
       <>
         <ConnectionWatcher />
-        <NavigationContainer />
+        <CartProvider>
+          <NavigationContainer
+            ref={(ref) => { this.navigatorRef = ref; }}
+          />
+        </CartProvider>
       </>
     );
   }

@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -20,6 +21,7 @@ public class RNNotificationsModule extends ReactContextBaseJavaModule {
 
     private final ReactApplicationContext reactContext;
     private final String channelId = "com.stz.rnnotifications";
+    private final String notificationIdExtraKey = "notificationId";
     private NotificationManager notificationManager;
 
     public RNNotificationsModule(ReactApplicationContext reactContext) {
@@ -47,15 +49,16 @@ public class RNNotificationsModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void notify(String title, String message, Callback callback) {
+        int notificationId = NotificationID.getID();
+
         Notification notification = new Notification.Builder(this.reactContext)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
                 .setChannelId(this.channelId)
-                .setContentIntent(this.createPendingIntent())
+                .setContentIntent(this.createPendingIntent(notificationId))
                 .build();
 
-        int notificationId = NotificationID.getID();
         this.notificationManager.notify(notificationId, notification);
 
         callback.invoke(notificationId);
@@ -68,7 +71,7 @@ public class RNNotificationsModule extends ReactContextBaseJavaModule {
                 .setContentText(message)
                 .setSmallIcon(android.R.drawable.ic_dialog_info)
                 .setChannelId(this.channelId)
-                .setContentIntent(this.createPendingIntent())
+                .setContentIntent(this.createPendingIntent(notificationId))
                 .build();
 
         notificationManager.notify(notificationId, notification);
@@ -79,12 +82,18 @@ public class RNNotificationsModule extends ReactContextBaseJavaModule {
         this.notificationManager.cancel(notificationId);
     }
 
-    public void notifyNewIntent() {
-        this.reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("notificationClicked", null);
+    public void notifyNewIntent(Bundle extras) {
+        int notificationId = 0;
+        if (extras != null) {
+            notificationId = extras.getInt(this.notificationIdExtraKey);
+        }
+
+        this.reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit("notificationClicked", notificationId);
     }
 
-    private PendingIntent createPendingIntent() {
+    private PendingIntent createPendingIntent(int notificationId) {
         Intent intent = new Intent(this.reactContext, MainActivity.class);
+        intent.putExtra(this.notificationIdExtraKey, notificationId);
 
         return PendingIntent.getActivity(
                 this.reactContext,

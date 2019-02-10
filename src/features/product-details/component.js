@@ -1,24 +1,58 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { NativeModules, Text, TouchableHighlight, View } from 'react-native';
+import {
+  NativeModules, Text, TouchableHighlight, View,
+} from 'react-native';
 
+import { withCart } from '../../core/cart';
 import { ROUTES } from '../../core/navigation';
 import Button from '../../shared/button';
 import IconSet, { ICON_TYPE } from '../../shared/icons';
 import styles from './styles';
 import { getDescription } from './utils';
 
-export default class ProductDetails extends Component {
+class ProductDetails extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
+    cartItems: PropTypes.arrayOf(PropTypes.object).isRequired,
+    addCartItem: PropTypes.func.isRequired,
   };
 
   static navigationOptions =
     ({ navigation }) => ({ title: `${navigation.state.params.product.name} Details` });
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      inCartCount: this.getInCartCount(),
+      notificationId: undefined,
+    };
+  }
+
   get product() {
     const { navigation } = this.props;
     return navigation.getParam('product', {});
+  }
+
+  getInCartCount = () => {
+    const { cartItems } = this.props;
+    return cartItems.filter(({ id }) => id === this.product.id).length;
+  }
+
+  notify = () => {
+    const { inCartCount, notificationId } = this.state;
+    const title = "Friday's Cart";
+    const message = inCartCount === 1
+      ? `1 ${this.product.name} is added to the cart`
+      : `${inCartCount} ${this.product.name} are added to the cart`;
+
+    if (notificationId) {
+      NativeModules.RNNotifications.update(notificationId, title, message);
+    } else {
+      NativeModules.RNNotifications.notify(title, message,
+        id => this.setState({ notificationId: id }));
+    }
   }
 
   handleGoBackPress = () => {
@@ -32,7 +66,9 @@ export default class ProductDetails extends Component {
   }
 
   handleToCartPress = () => {
-    NativeModules.RNNotifications.notify('test title', 'test message', notificationID => console.log(notificationID));
+    const { addCartItem } = this.props;
+    addCartItem(this.product);
+    this.setState(({ inCartCount }) => ({ inCartCount: inCartCount + 1 }), this.notify);
   }
 
   render() {
@@ -61,3 +97,5 @@ export default class ProductDetails extends Component {
     );
   }
 }
+
+export default withCart(ProductDetails);

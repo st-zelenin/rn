@@ -1,16 +1,18 @@
-import { createSwitchNavigator, createStackNavigator, createAppContainer } from 'react-navigation';
+import { createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
 
-import Login from '../../features/login';
-import ProductList from '../../features/product-list';
-import ProductDetails from '../../features/product-details';
-import ProductLocation from '../../features/product-location';
 import AuthLoading from '../../features/auth-loading';
+import Cart from '../../features/cart';
+import Login from '../../features/login';
+import ProductDetails from '../../features/product-details';
+import ProductList from '../../features/product-list';
+import ProductLocation from '../../features/product-location';
 import { ROUTES, STACKS } from './constants';
 
 const AppStack = createStackNavigator({
   [ROUTES.PRODUCT_LIST]: { screen: ProductList },
   [ROUTES.PRODUCT_DETAILS]: { screen: ProductDetails },
   [ROUTES.PRODUCT_LOCATION]: { screen: ProductLocation },
+  [ROUTES.CART]: { screen: Cart },
 });
 
 const AuthStack = createStackNavigator({
@@ -26,4 +28,4 @@ const NavigationContainer = createAppContainer(createSwitchNavigator(
   { initialRouteName: 'AuthLoading' },
 ));
 
-export default createAppContainer(NavigationContainer);
+export default NavigationContainer;

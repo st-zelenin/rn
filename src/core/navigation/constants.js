@@ -3,6 +3,7 @@ export const ROUTES = {
   PRODUCT_LIST: 'ProductList',
   PRODUCT_DETAILS: 'ProductDetails',
   PRODUCT_LOCATION: 'ProductLocation',
+  CART: 'Cart',
 };
 
 export const STACKS = {
