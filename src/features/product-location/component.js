@@ -29,6 +29,9 @@ export default class ProductLocation extends Component {
     if (supported) {
       Linking.openURL(url);
     }
+
+    // to test app_crash
+    throw new Error('app crash!');
   }
 
   moveToProductLocation =

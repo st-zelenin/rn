@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 import styles from './styles';
 import Button from '../button';
+import { captureWarning } from '../../core/sentry';
 
 class RetryModal extends Component {
   static propTypes = {
@@ -23,15 +24,20 @@ class RetryModal extends Component {
   componentDidMount() {
     const { isVisible } = this.props;
     if (isVisible) {
-      Vibration.vibrate(this.vibrateDuration);
+      this.vibrateAndCapture();
     }
   }
 
   componentDidUpdate({ isVisible: prevIsVisible }) {
     const { isVisible } = this.props;
     if (!prevIsVisible && isVisible) {
-      Vibration.vibrate(this.vibrateDuration);
+      this.vibrateAndCapture();
     }
+  }
+
+  vibrateAndCapture = () => {
+    Vibration.vibrate(this.vibrateDuration);
+    captureWarning('retry_modal');
   }
 
   render() {

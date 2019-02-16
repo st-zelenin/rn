@@ -5,10 +5,11 @@ import {
 } from 'react-native';
 
 import { ROUTES } from '../../core/navigation';
+import { captureBreadcrumb } from '../../core/sentry';
 import RetryModal from '../../shared/retry-modal';
 import ProductRow from './product-row';
-import { extendProducts, loadProducts } from './utils';
 import styles from './styles';
+import { extendProducts, loadProducts } from './utils';
 
 export default class ProductList extends Component {
   static propTypes = {
@@ -49,6 +50,8 @@ export default class ProductList extends Component {
       { isLoading: true },
       this.loadNextChunk,
     );
+
+    captureBreadcrumb('products list opened');
   }
 
   componentWillUnmount() {

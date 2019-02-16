@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 
 import { withCart } from '../../core/cart';
+import { captureBreadcrumb } from '../../core/sentry';
 import styles from './styles';
 
 class Cart extends Component {
@@ -12,6 +13,12 @@ class Cart extends Component {
 
   static navigationOptions =
     () => ({ title: 'Cart' });
+
+  componentDidMount() {
+    const { cartItems } = this.props;
+    const items = cartItems.map(({ name, id }) => ({ name, id }));
+    captureBreadcrumb('cart is opened', { items });
+  }
 
   render() {
     const { cartItems } = this.props;

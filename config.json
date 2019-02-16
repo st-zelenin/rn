@@ -1,4 +1,5 @@
 {
   "authTokenUrl": "http://ecsc00a02fb3.epam.com/index.php/rest/V1/integration/customer/token",
-  "apiUrl": "http://ecsc00a02fb3.epam.com/rest/V1/"
+  "apiUrl": "http://ecsc00a02fb3.epam.com/rest/V1/",
+  "dsn": "https://176f7bd582af4981bf1ce65b619296f1@sentry.io/1395549"
 }

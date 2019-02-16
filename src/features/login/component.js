@@ -8,6 +8,7 @@ import DeviceInfo from 'react-native-device-info';
 
 import { UnauthorizedError } from '../../core/errors';
 import { ROUTES } from '../../core/navigation';
+import { captureBreadcrumb, setUserContext } from '../../core/sentry';
 import Button from '../../shared/button';
 import RetryModal from '../../shared/retry-modal';
 import { ERROR_ANIMATION_CONFIG } from './constants';
@@ -43,22 +44,8 @@ export default class Login extends Component {
 
   componentDidMount() {
     this.okAnimation.play();
+    captureBreadcrumb('login screen');
   }
-
-  initGreetingMessage = () => {
-    const systemName = DeviceInfo.getSystemName();
-    const isTablet = DeviceInfo.isTablet();
-
-    let deviceType = 'unknown device';
-    if (systemName === 'Android') {
-      deviceType = isTablet ? 'Android tablet' : 'Android phone';
-    } else {
-      deviceType = isTablet ? 'iPad' : 'iPhone';
-    }
-
-    return `Thank you for using our app on your ${deviceType}`;
-  }
-
 
   handleError = (message) => {
     this.setState(({ error }) => {
@@ -93,6 +80,7 @@ export default class Login extends Component {
       /* eslint-disable-next-line no-unused-vars */
       const token = await signIn(email, password);
       await NativeModules.RNCustomAsyncStorage.setItem('RNHW:token', token);
+      setUserContext({ email });
 
       isLoginSuccessfull = true;
     } catch (error) {

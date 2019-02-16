@@ -34,6 +34,7 @@ import expolib_v1.okhttp3.OkHttpClient;
 
 // Needed for `react-native link`
 // import com.facebook.react.ReactApplication;
+import io.sentry.RNSentryPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.airbnb.android.react.lottie.LottiePackage;
 
@@ -65,6 +66,7 @@ public class MainApplication extends ExpoApplication implements AppLoaderPackage
 
                 // Needed for `react-native link`
                 // new MainReactPackage(),
+                new RNSentryPackage(),
                 new RNDeviceInfo(),
                 new LottiePackage(),
                 new SplashScreenReactPackage(),

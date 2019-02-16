@@ -9,8 +9,11 @@ import { NavigationActions } from 'react-navigation';
 import CartProvider from './src/core/cart';
 import ConnectionWatcher from './src/core/connection-watcher';
 import NavigationContainer, { ROUTES } from './src/core/navigation';
+import { initializeSentry, captureException } from './src/core/sentry';
 
 const isAndroid = Platform.OS === 'android';
+
+initializeSentry();
 
 if (isAndroid) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -42,7 +45,6 @@ export default class App extends Component {
         if (this.navigatorRef) {
           this.navigatorRef.dispatch(NavigationActions.navigate({ routeName: ROUTES.CART }));
           if (notificationId) {
-            console.log(notificationId);
             NativeModules.RNNotifications.remove(notificationId);
           }
         }
@@ -54,6 +56,10 @@ export default class App extends Component {
     if (this.emitter) {
       this.emitter.removeAllListeners();
     }
+  }
+
+  componentDidCatch(error, errorInfo) {
+    captureException(error, { errorInfo }, { appCrash: 'app_crash' });
   }
 
   render() {

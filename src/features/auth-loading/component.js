@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 
 import { STACKS } from '../../core/navigation';
+import { setUserContext } from '../../core/sentry';
 import baseStyles from '../../shared/styles';
 
 class AuthLoading extends React.Component {
@@ -21,7 +22,14 @@ class AuthLoading extends React.Component {
     const { navigation } = this.props;
     const token = await NativeModules.RNCustomAsyncStorage.getItem('RNHW:token');
 
-    navigation.navigate(token ? STACKS.APP_STACK : STACKS.AUTH_STACK);
+    if (token) {
+      // as I have no idea how to get user data by existing token
+      // I just save as `unknown`
+      setUserContext({ email: 'unknown' });
+      navigation.navigate(STACKS.APP_STACK);
+    } else {
+      navigation.navigate(STACKS.AUTH_STACK);
+    }
   };
 
   render() {

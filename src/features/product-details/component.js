@@ -6,6 +6,7 @@ import {
 
 import { withCart } from '../../core/cart';
 import { ROUTES } from '../../core/navigation';
+import { captureBreadcrumb, captureException } from '../../core/sentry';
 import Button from '../../shared/button';
 import IconSet, { ICON_TYPE } from '../../shared/icons';
 import styles from './styles';
@@ -28,6 +29,11 @@ class ProductDetails extends Component {
       inCartCount: this.getInCartCount(),
       notificationId: undefined,
     };
+  }
+
+  componentDidMount() {
+    const { name, id } = this.product;
+    captureBreadcrumb('product opened', { product: { name, id } });
   }
 
   get product() {
@@ -53,6 +59,9 @@ class ProductDetails extends Component {
       NativeModules.RNNotifications.notify(title, message,
         id => this.setState({ notificationId: id }));
     }
+
+    const { name, id } = this.product;
+    captureBreadcrumb('product added to cart', { product: { name, id } });
   }
 
   handleGoBackPress = () => {
@@ -69,6 +78,14 @@ class ProductDetails extends Component {
     const { addCartItem } = this.props;
     addCartItem(this.product);
     this.setState(({ inCartCount }) => ({ inCartCount: inCartCount + 1 }), this.notify);
+  }
+
+  handleTestSentryPress = () => {
+    try {
+      throw new Error('test error from product details');
+    } catch (ex) {
+      captureException(ex, { product: this.product });
+    }
   }
 
   render() {
@@ -91,6 +108,8 @@ class ProductDetails extends Component {
           <Button text="All Products" onPress={this.handleGoBackPress} />
 
           <Button text="To Cart" onPress={this.handleToCartPress} />
+
+          <Button text="Test Sentry" onPress={this.handleTestSentryPress} />
 
         </View>
       </View>
