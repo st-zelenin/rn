@@ -29,7 +29,7 @@
     "android": {
       "package": "com.stz.rn",
       "publishBundlePath": "android/app/src/main/assets/shell-app.bundle",
-      "publishManifestPath": "android/app/src/main/assets/shell-app-manifest.json"
+      "publishManifestPath": "android/app/src/main/assets/kernel-manifest.json"
     },
     "isDetached": true,
     "detach": {
