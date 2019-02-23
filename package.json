@@ -25,6 +25,9 @@
     "react-navigation": "^3.0.9"
   },
   "devDependencies": {
+    "appcenter": "^1.12.2",
+    "appcenter-analytics": "^1.12.2",
+    "appcenter-crashes": "^1.12.2",
     "babel-eslint": "^10.0.1",
     "babel-preset-expo": "^5.0.0",
     "eslint": "^5.9.0",
