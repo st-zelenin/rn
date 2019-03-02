@@ -2,9 +2,10 @@ import LottieView from 'lottie-react-native';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  LayoutAnimation, NativeModules, Text, TextInput, View,
+  LayoutAnimation, Text, TextInput, View,
 } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
+import * as Keychain from 'react-native-keychain';
 
 import { UnauthorizedError } from '../../core/errors';
 import { ROUTES } from '../../core/navigation';
@@ -79,7 +80,11 @@ export default class Login extends Component {
 
       /* eslint-disable-next-line no-unused-vars */
       const token = await signIn(email, password);
-      await NativeModules.RNCustomAsyncStorage.setItem('RNHW:token', token);
+      const isSaved = await Keychain.setGenericPassword(email, token);
+      if (!isSaved) {
+        throw new Error('failed to save user credentials');
+      }
+
       setUserContext({ email });
 
       isLoginSuccessfull = true;

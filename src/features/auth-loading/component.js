@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import {
-  ActivityIndicator, NativeModules, StatusBar, View,
-} from 'react-native';
+import { ActivityIndicator, StatusBar, View } from 'react-native';
+import * as Keychain from 'react-native-keychain';
 
 import { STACKS } from '../../core/navigation';
 import { setUserContext } from '../../core/sentry';
@@ -20,12 +19,13 @@ class AuthLoading extends React.Component {
 
   checkAuth = async () => {
     const { navigation } = this.props;
-    const token = await NativeModules.RNCustomAsyncStorage.getItem('RNHW:token');
+    const credentials = await Keychain.getGenericPassword();
 
-    if (token) {
-      // as I have no idea how to get user data by existing token
-      // I just save as `unknown`
-      setUserContext({ email: 'unknown' });
+    if (credentials) {
+      // eslint-disable-next-line no-unused-vars
+      const { username: email, password: token } = credentials;
+
+      setUserContext({ email });
       navigation.navigate(STACKS.APP_STACK);
     } else {
       navigation.navigate(STACKS.AUTH_STACK);
